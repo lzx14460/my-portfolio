@@ -1,0 +1,147 @@
+================================================================================
+页面与API接口对应关系报告
+生成时间: 2026/4/15 09:27:27
+================================================================================
+
+📄 页面: views/admin/AnnounceManage
+📍 文件: C:\Users\Administrator\Desktop\smart-campus-frontend\src\views\admin\AnnounceManage.vue
+🔧 方法: deep
+🔗 API接口 (6个):
+   1. [GET] http://localhost:8080/api/announcement/list
+   2. [PUT] http://localhost:8080/api/announcement/status/:param?status=:param
+   3. [DELETE] http://localhost:8080/api/announcement/:param
+   4. [GET] http://localhost:8080/api/announcement/list
+   5. [PUT] http://localhost:8080/api/announcement/status/:param?status=:param
+   6. [DELETE] http://localhost:8080/api/announcement/:param
+
+--------------------------------------------------------------------------------
+
+📄 页面: views/admin/ApprovalPage
+📍 文件: C:\Users\Administrator\Desktop\smart-campus-frontend\src\views\admin\ApprovalPage.vue
+🔧 方法: deep, deep, deep
+🔗 API接口 (8个):
+   1. [GET] http://localhost:8080/api/user/pending-approvals
+   2. [GET] http://localhost:8080/api/user/approved-history
+   3. [GET] http://localhost:8080/api/user/count
+   4. [POST] http://localhost:8080/api/user/approve-apply
+   5. [GET] http://localhost:8080/api/user/pending-approvals
+   6. [GET] http://localhost:8080/api/user/approved-history
+   7. [GET] http://localhost:8080/api/user/count
+   8. [POST] http://localhost:8080/api/user/approve-apply
+
+--------------------------------------------------------------------------------
+
+📄 页面: views/admin/FacilityAdmin/FacilityManagement
+📍 文件: C:\Users\Administrator\Desktop\smart-campus-frontend\src\views\admin\FacilityAdmin\FacilityManagement.vue
+🔗 API接口 (4个):
+   1. [GET] http://localhost:8080/api/facility/list
+   2. [DELETE] http://localhost:8080/api/facility/:param
+   3. [GET] http://localhost:8080/api/facility/list
+   4. [DELETE] http://localhost:8080/api/facility/:param
+
+--------------------------------------------------------------------------------
+
+📄 页面: views/admin/FacilityAdmin/ReservationManagement
+📍 文件: C:\Users\Administrator\Desktop\smart-campus-frontend\src\views\admin\FacilityAdmin\ReservationManagement.vue
+🔧 方法: deep
+🔗 API接口 (6个):
+   1. [GET] http://localhost:8080/api/reservation/admin/list
+   2. [PUT] http://localhost:8080/api/reservation/checkin/:param
+   3. [DELETE] http://localhost:8080/api/reservation/admin/:param
+   4. [GET] http://localhost:8080/api/reservation/admin/list
+   5. [PUT] http://localhost:8080/api/reservation/checkin/:param
+   6. [DELETE] http://localhost:8080/api/reservation/admin/:param
+
+--------------------------------------------------------------------------------
+
+📄 页面: views/admin/UserManagement
+📍 文件: C:\Users\Administrator\Desktop\smart-campus-frontend\src\views\admin\UserManagement.vue
+🔧 方法: deep, deep
+🔗 API接口 (2个):
+   1. [GET] http://localhost:8080/api/user/list
+   2. [GET] http://localhost:8080/api/user/list
+
+--------------------------------------------------------------------------------
+
+📄 页面: views/FacilityList
+📍 文件: C:\Users\Administrator\Desktop\smart-campus-frontend\src\views\FacilityList.vue
+🔧 方法: deep, deep, deep, deep, deep, deep, deep, deep, deep, deep, deep, deep, deep
+🔗 API接口 (8个):
+   1. [GET] http://localhost:8080/api/facility/list
+   2. [POST] http://localhost:8080/api/reservation/check
+   3. [POST] http://localhost:8080/api/reservation/create
+   4. [POST] http://localhost:8080/api/reservation/pay-by-order
+   5. [GET] http://localhost:8080/api/facility/list
+   6. [POST] http://localhost:8080/api/reservation/check
+   7. [POST] http://localhost:8080/api/reservation/create
+   8. [POST] http://localhost:8080/api/reservation/pay-by-order
+
+--------------------------------------------------------------------------------
+
+📄 页面: views/HomePage
+📍 文件: C:\Users\Administrator\Desktop\smart-campus-frontend\src\views\HomePage.vue
+🔧 方法: deep, deep, deep
+🔗 API接口 (8个):
+   1. [GET] http://localhost:8080/api/reservation/today-count
+   2. [GET] http://localhost:8080/api/user/count
+   3. [GET] http://localhost:8080/api/facility/count
+   4. [GET] http://localhost:8080/api/announcement/current
+   5. [GET] http://localhost:8080/api/reservation/today-count
+   6. [GET] http://localhost:8080/api/user/count
+   7. [GET] http://localhost:8080/api/facility/count
+   8. [GET] http://localhost:8080/api/announcement/current
+
+--------------------------------------------------------------------------------
+
+📄 页面: views/ProfilePage
+📍 文件: C:\Users\Administrator\Desktop\smart-campus-frontend\src\views\ProfilePage.vue
+🔧 方法: deep, deep, deep, deep, deep, deep, deep, deep, deep
+🔗 API接口 (10个):
+   1. [GET] http://localhost:8080/api/user/check-phone?phone=:param
+   2. [GET] http://localhost:8080/api/user/check-username?username=:param
+   3. [GET] http://localhost:8080/api/user/current
+   4. [PUT] http://localhost:8080/api/user/update
+   5. [PUT] http://localhost:8080/api/user/change-password
+   6. [GET] http://localhost:8080/api/user/check-phone?phone=:param
+   7. [GET] http://localhost:8080/api/user/check-username?username=:param
+   8. [GET] http://localhost:8080/api/user/current
+   9. [PUT] http://localhost:8080/api/user/update
+   10. [PUT] http://localhost:8080/api/user/change-password
+
+--------------------------------------------------------------------------------
+
+📄 页面: views/ReservationList
+📍 文件: C:\Users\Administrator\Desktop\smart-campus-frontend\src\views\ReservationList.vue
+🔧 方法: deep
+🔗 API接口 (4个):
+   1. [GET] http://localhost:8080/api/reservation/my-list
+   2. [PUT] http://localhost:8080/api/reservation/cancel/:param
+   3. [GET] http://localhost:8080/api/reservation/my-list
+   4. [PUT] http://localhost:8080/api/reservation/cancel/:param
+
+--------------------------------------------------------------------------------
+
+📄 页面: views/SportRecordAndHealthReport
+📍 文件: C:\Users\Administrator\Desktop\smart-campus-frontend\src\views\SportRecordAndHealthReport.vue
+🔗 API接口 (6个):
+   1. [GET] http://localhost:8080/api/reservation/sport-records
+   2. [GET] http://localhost:8080/api/health/records
+   3. [POST] http://localhost:8080/api/health/record
+   4. [GET] http://localhost:8080/api/reservation/sport-records
+   5. [GET] http://localhost:8080/api/health/records
+   6. [POST] http://localhost:8080/api/health/record
+
+--------------------------------------------------------------------------------
+
+📄 页面: views/UserLogin
+📍 文件: C:\Users\Administrator\Desktop\smart-campus-frontend\src\views\UserLogin.vue
+🔧 方法: deep, deep, deep, deep
+🔗 API接口 (2个):
+   1. [POST] http://localhost:8080/api/user/register
+   2. [POST] http://localhost:8080/api/user/register
+
+--------------------------------------------------------------------------------
+
+📊 统计汇总:
+   - 总页面数: 11
+   - 总API数: 64

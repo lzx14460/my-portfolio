@@ -1,0 +1,505 @@
+{
+  "generatedAt": "2026-04-15T01:27:27.231Z",
+  "pages": {
+    "views/admin/AnnounceManage": {
+      "file": "C:\\Users\\Administrator\\Desktop\\smart-campus-frontend\\src\\views\\admin\\AnnounceManage.vue",
+      "apis": [
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/announcement/list",
+          "type": "axios",
+          "line": 174
+        },
+        {
+          "method": "PUT",
+          "url": "http://localhost:8080/api/announcement/status/:param?status=:param",
+          "type": "axios",
+          "line": 267
+        },
+        {
+          "method": "DELETE",
+          "url": "http://localhost:8080/api/announcement/:param",
+          "type": "axios",
+          "line": 294
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/announcement/list",
+          "type": "direct",
+          "line": 174
+        },
+        {
+          "method": "PUT",
+          "url": "http://localhost:8080/api/announcement/status/:param?status=:param",
+          "type": "direct",
+          "line": 267
+        },
+        {
+          "method": "DELETE",
+          "url": "http://localhost:8080/api/announcement/:param",
+          "type": "direct",
+          "line": 294
+        }
+      ],
+      "methods": [
+        "deep"
+      ]
+    },
+    "views/admin/ApprovalPage": {
+      "file": "C:\\Users\\Administrator\\Desktop\\smart-campus-frontend\\src\\views\\admin\\ApprovalPage.vue",
+      "apis": [
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/user/pending-approvals",
+          "type": "axios",
+          "line": 181
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/user/approved-history",
+          "type": "axios",
+          "line": 203
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/user/count",
+          "type": "axios",
+          "line": 218
+        },
+        {
+          "method": "POST",
+          "url": "http://localhost:8080/api/user/approve-apply",
+          "type": "axios",
+          "line": 244
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/user/pending-approvals",
+          "type": "direct",
+          "line": 181
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/user/approved-history",
+          "type": "direct",
+          "line": 203
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/user/count",
+          "type": "direct",
+          "line": 218
+        },
+        {
+          "method": "POST",
+          "url": "http://localhost:8080/api/user/approve-apply",
+          "type": "direct",
+          "line": 244
+        }
+      ],
+      "methods": [
+        "deep",
+        "deep",
+        "deep"
+      ]
+    },
+    "views/admin/FacilityAdmin/FacilityManagement": {
+      "file": "C:\\Users\\Administrator\\Desktop\\smart-campus-frontend\\src\\views\\admin\\FacilityAdmin\\FacilityManagement.vue",
+      "apis": [
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/facility/list",
+          "type": "axios",
+          "line": 374
+        },
+        {
+          "method": "DELETE",
+          "url": "http://localhost:8080/api/facility/:param",
+          "type": "axios",
+          "line": 494
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/facility/list",
+          "type": "direct",
+          "line": 374
+        },
+        {
+          "method": "DELETE",
+          "url": "http://localhost:8080/api/facility/:param",
+          "type": "direct",
+          "line": 494
+        }
+      ],
+      "methods": []
+    },
+    "views/admin/FacilityAdmin/ReservationManagement": {
+      "file": "C:\\Users\\Administrator\\Desktop\\smart-campus-frontend\\src\\views\\admin\\FacilityAdmin\\ReservationManagement.vue",
+      "apis": [
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/reservation/admin/list",
+          "type": "axios",
+          "line": 286
+        },
+        {
+          "method": "PUT",
+          "url": "http://localhost:8080/api/reservation/checkin/:param",
+          "type": "axios",
+          "line": 317
+        },
+        {
+          "method": "DELETE",
+          "url": "http://localhost:8080/api/reservation/admin/:param",
+          "type": "axios",
+          "line": 347
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/reservation/admin/list",
+          "type": "direct",
+          "line": 286
+        },
+        {
+          "method": "PUT",
+          "url": "http://localhost:8080/api/reservation/checkin/:param",
+          "type": "direct",
+          "line": 317
+        },
+        {
+          "method": "DELETE",
+          "url": "http://localhost:8080/api/reservation/admin/:param",
+          "type": "direct",
+          "line": 347
+        }
+      ],
+      "methods": [
+        "deep"
+      ]
+    },
+    "views/admin/UserManagement": {
+      "file": "C:\\Users\\Administrator\\Desktop\\smart-campus-frontend\\src\\views\\admin\\UserManagement.vue",
+      "apis": [
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/user/list",
+          "type": "axios",
+          "line": 350
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/user/list",
+          "type": "direct",
+          "line": 350
+        }
+      ],
+      "methods": [
+        "deep",
+        "deep"
+      ]
+    },
+    "views/FacilityList": {
+      "file": "C:\\Users\\Administrator\\Desktop\\smart-campus-frontend\\src\\views\\FacilityList.vue",
+      "apis": [
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/facility/list",
+          "type": "axios",
+          "line": 162
+        },
+        {
+          "method": "POST",
+          "url": "http://localhost:8080/api/reservation/check",
+          "type": "axios",
+          "line": 219
+        },
+        {
+          "method": "POST",
+          "url": "http://localhost:8080/api/reservation/create",
+          "type": "axios",
+          "line": 232
+        },
+        {
+          "method": "POST",
+          "url": "http://localhost:8080/api/reservation/pay-by-order",
+          "type": "axios",
+          "line": 262
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/facility/list",
+          "type": "direct",
+          "line": 162
+        },
+        {
+          "method": "POST",
+          "url": "http://localhost:8080/api/reservation/check",
+          "type": "direct",
+          "line": 219
+        },
+        {
+          "method": "POST",
+          "url": "http://localhost:8080/api/reservation/create",
+          "type": "direct",
+          "line": 232
+        },
+        {
+          "method": "POST",
+          "url": "http://localhost:8080/api/reservation/pay-by-order",
+          "type": "direct",
+          "line": 262
+        }
+      ],
+      "methods": [
+        "deep",
+        "deep",
+        "deep",
+        "deep",
+        "deep",
+        "deep",
+        "deep",
+        "deep",
+        "deep",
+        "deep",
+        "deep",
+        "deep",
+        "deep"
+      ]
+    },
+    "views/HomePage": {
+      "file": "C:\\Users\\Administrator\\Desktop\\smart-campus-frontend\\src\\views\\HomePage.vue",
+      "apis": [
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/reservation/today-count",
+          "type": "axios",
+          "line": 244
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/user/count",
+          "type": "axios",
+          "line": 253
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/facility/count",
+          "type": "axios",
+          "line": 262
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/announcement/current",
+          "type": "axios",
+          "line": 310
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/reservation/today-count",
+          "type": "direct",
+          "line": 244
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/user/count",
+          "type": "direct",
+          "line": 253
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/facility/count",
+          "type": "direct",
+          "line": 262
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/announcement/current",
+          "type": "direct",
+          "line": 310
+        }
+      ],
+      "methods": [
+        "deep",
+        "deep",
+        "deep"
+      ]
+    },
+    "views/ProfilePage": {
+      "file": "C:\\Users\\Administrator\\Desktop\\smart-campus-frontend\\src\\views\\ProfilePage.vue",
+      "apis": [
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/user/check-phone?phone=:param",
+          "type": "axios",
+          "line": 275
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/user/check-username?username=:param",
+          "type": "axios",
+          "line": 304
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/user/current",
+          "type": "axios",
+          "line": 407
+        },
+        {
+          "method": "PUT",
+          "url": "http://localhost:8080/api/user/update",
+          "type": "axios",
+          "line": 435
+        },
+        {
+          "method": "PUT",
+          "url": "http://localhost:8080/api/user/change-password",
+          "type": "axios",
+          "line": 488
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/user/check-phone?phone=:param",
+          "type": "direct",
+          "line": 275
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/user/check-username?username=:param",
+          "type": "direct",
+          "line": 304
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/user/current",
+          "type": "direct",
+          "line": 407
+        },
+        {
+          "method": "PUT",
+          "url": "http://localhost:8080/api/user/update",
+          "type": "direct",
+          "line": 435
+        },
+        {
+          "method": "PUT",
+          "url": "http://localhost:8080/api/user/change-password",
+          "type": "direct",
+          "line": 488
+        }
+      ],
+      "methods": [
+        "deep",
+        "deep",
+        "deep",
+        "deep",
+        "deep",
+        "deep",
+        "deep",
+        "deep",
+        "deep"
+      ]
+    },
+    "views/ReservationList": {
+      "file": "C:\\Users\\Administrator\\Desktop\\smart-campus-frontend\\src\\views\\ReservationList.vue",
+      "apis": [
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/reservation/my-list",
+          "type": "axios",
+          "line": 206
+        },
+        {
+          "method": "PUT",
+          "url": "http://localhost:8080/api/reservation/cancel/:param",
+          "type": "axios",
+          "line": 270
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/reservation/my-list",
+          "type": "direct",
+          "line": 206
+        },
+        {
+          "method": "PUT",
+          "url": "http://localhost:8080/api/reservation/cancel/:param",
+          "type": "direct",
+          "line": 270
+        }
+      ],
+      "methods": [
+        "deep"
+      ]
+    },
+    "views/SportRecordAndHealthReport": {
+      "file": "C:\\Users\\Administrator\\Desktop\\smart-campus-frontend\\src\\views\\SportRecordAndHealthReport.vue",
+      "apis": [
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/reservation/sport-records",
+          "type": "axios",
+          "line": 245
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/health/records",
+          "type": "axios",
+          "line": 259
+        },
+        {
+          "method": "POST",
+          "url": "http://localhost:8080/api/health/record",
+          "type": "axios",
+          "line": 285
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/reservation/sport-records",
+          "type": "direct",
+          "line": 245
+        },
+        {
+          "method": "GET",
+          "url": "http://localhost:8080/api/health/records",
+          "type": "direct",
+          "line": 259
+        },
+        {
+          "method": "POST",
+          "url": "http://localhost:8080/api/health/record",
+          "type": "direct",
+          "line": 285
+        }
+      ],
+      "methods": []
+    },
+    "views/UserLogin": {
+      "file": "C:\\Users\\Administrator\\Desktop\\smart-campus-frontend\\src\\views\\UserLogin.vue",
+      "apis": [
+        {
+          "method": "POST",
+          "url": "http://localhost:8080/api/user/register",
+          "type": "axios",
+          "line": 405
+        },
+        {
+          "method": "POST",
+          "url": "http://localhost:8080/api/user/register",
+          "type": "direct",
+          "line": 405
+        }
+      ],
+      "methods": [
+        "deep",
+        "deep",
+        "deep",
+        "deep"
+      ]
+    }
+  },
+  "summary": {
+    "totalPages": 11,
+    "totalApis": 64
+  }
+}
