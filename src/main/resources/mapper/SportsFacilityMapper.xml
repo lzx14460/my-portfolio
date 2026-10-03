@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.system.mapper.SportsFacilityMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.system.entity.SportsFacility">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="location" property="location"/>
+        <result column="description" property="description"/>
+        <result column="image_url" property="imageUrl"/>
+        <result column="capacity" property="capacity"/>
+        <result column="price_per_hour" property="pricePerHour"/>
+        <result column="max_duration" property="maxDuration"/>
+        <result column="open_time" property="openTime"/>
+        <result column="close_time" property="closeTime"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name, type, location, description, image_url, capacity,
+        price_per_hour, open_time, close_time, status, create_time, update_time
+    </sql>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM sports_facility WHERE id = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM sports_facility
+        ORDER BY type, name
+    </select>
+
+    <select id="selectByType" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM sports_facility
+        WHERE type = #{type}
+        ORDER BY name
+    </select>
+
+    <select id="selectByPage" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM sports_facility
+        ORDER BY type, name
+        LIMIT #{start}, #{size}
+    </select>
+
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(*) FROM sports_facility
+    </select>
+
+<!--    <select id="selectByCondition" resultMap="BaseResultMap">-->
+<!--        SELECT <include refid="Base_Column_List"/>-->
+<!--        FROM sports_facility-->
+<!--        <where>-->
+<!--            <if test="name != null and name != ''">-->
+<!--                AND name LIKE CONCAT('%', #{name}, '%')-->
+<!--            </if>-->
+<!--            <if test="type != null">-->
+<!--                AND type = #{type}-->
+<!--            </if>-->
+<!--            <if test="location != null and location != ''">-->
+<!--                AND location LIKE CONCAT('%', #{location}, '%')-->
+<!--            </if>-->
+<!--            <if test="status != null">-->
+<!--                AND status = #{status}-->
+<!--            </if>-->
+<!--            <if test="minPrice != null">-->
+<!--                AND price_per_hour >= #{minPrice}-->
+<!--            </if>-->
+<!--            <if test="maxPrice != null">-->
+<!--                AND price_per_hour &lt;= #{maxPrice}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        ORDER BY type, name-->
+<!--    </select>-->
+
+    <select id="selectAvailableFacilities" resultMap="BaseResultMap">
+        SELECT DISTINCT f.*
+        FROM sports_facility f
+        WHERE f.status = 1
+          AND f.id NOT IN (
+            SELECT facility_id
+            FROM reservation
+            WHERE reservation_date = #{reservationDate}
+              AND status IN (0, 1)
+              AND NOT (end_time &lt;= #{startTime} OR start_time &gt;= #{endTime})
+        )
+        ORDER BY f.type, f.name
+    </select>
+    <!-- 查询单个设施统计 - 返回自定义VO -->
+    <select id="selectFacilityStatistics" resultType="com.example.system.vo.FacilityStatisticsVO">
+        SELECT
+        f.id as facilityId,
+        f.name as facilityName,
+        f.type as facilityType,
+        COALESCE(COUNT(r.id), 0) as totalReservations,
+        COALESCE(SUM(r.total_price), 0) as totalRevenue,
+        COALESCE(COUNT(CASE WHEN r.status = 1 THEN 1 END), 0) as paidReservations,
+        COALESCE(COUNT(CASE WHEN r.status = 2 THEN 1 END), 0) as usedReservations,
+        COALESCE(COUNT(CASE WHEN r.status = 3 THEN 1 END), 0) as cancelledReservations,
+        COALESCE(COUNT(CASE WHEN r.status = 0 THEN 1 END), 0) as pendingReservations
+        FROM sports_facility f
+        LEFT JOIN reservation r ON f.id = r.facility_id
+        WHERE f.id = #{facilityId}
+        <if test="startDate != null and startDate != ''">
+            AND r.reservation_date >= #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND r.reservation_date &lt;= #{endDate}
+        </if>
+        GROUP BY f.id
+    </select>
+    <!-- 查询所有设施统计 -->
+    <select id="selectAllFacilitiesStatistics" resultType="java.util.HashMap">
+        SELECT
+        f.id as facilityId,
+        f.name as facilityName,
+        f.type as facilityType,
+        COUNT(r.id) as totalReservations,
+        COALESCE(SUM(r.total_price), 0) as totalRevenue,
+        COUNT(CASE WHEN r.status = 1 THEN 1 END) as paidReservations,
+        COUNT(CASE WHEN r.status = 2 THEN 1 END) as usedReservations
+        FROM sports_facility f
+        LEFT JOIN reservation r ON f.id = r.facility_id
+        <where>
+            <if test="startDate != null and startDate != ''">
+                AND r.reservation_date >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND r.reservation_date &lt;= #{endDate}
+            </if>
+        </where>
+        GROUP BY f.id
+        ORDER BY totalReservations DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sports_facility (name, type, location, capacity, price_per_hour, max_duration,
+                                     open_time, close_time, image_url, description, status)
+        VALUES (#{name}, #{type}, #{location}, #{capacity}, #{pricePerHour}, #{maxDuration},
+                #{openTime}, #{closeTime}, #{imageUrl}, #{description}, 1)
+    </insert>
+
+    <update id="update">
+        UPDATE sports_facility
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="location != null">location = #{location},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="capacity != null">capacity = #{capacity},</if>
+            <if test="pricePerHour != null">price_per_hour = #{pricePerHour},</if>
+            <if test="maxDuration != null">max_duration = #{max_duration},</if>
+            <if test="openTime != null">open_time = #{openTime},</if>
+            <if test="closeTime != null">close_time = #{closeTime},</if>
+            <if test="status != null">status = #{status},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+<!--    <update id="updateStatus">-->
+<!--        UPDATE sports_facility-->
+<!--        SET status = #{status}, update_time = NOW()-->
+<!--        WHERE id = #{id}-->
+<!--    </update>-->
+
+    <delete id="deleteById">
+        DELETE FROM sports_facility WHERE id = #{id}
+    </delete>
+
+</mapper>

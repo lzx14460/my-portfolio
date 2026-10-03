@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.system.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.system.entity.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="gender" property="gender"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="role" property="role"/>
+        <result column="avatar" property="avatar"/>
+        <result column="student_id" property="studentId"/>
+        <result column="college" property="college"/>
+        <result column="class_name" property="className"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="apply_status" property="applyStatus"/>
+        <result column="applied_role" property="appliedRole"/>
+        <result column="approve_time" property="approveTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, username, password, name, gender, phone, email, role, avatar,
+        student_id, college, class_name, status, create_time, update_time,
+          applied_role, apply_status, apply_time, approve_time, approve_remark
+    </sql>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user WHERE id = #{id}
+    </select>
+
+    <select id="selectByUsername" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user WHERE username = #{username}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user ORDER BY create_time DESC
+    </select>
+
+    <select id="selectByPage" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user ORDER BY create_time DESC
+        LIMIT #{start}, #{size}
+    </select>
+
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(*) FROM user
+    </select>
+
+<!--    <select id="selectByCondition" resultMap="BaseResultMap">-->
+<!--        SELECT <include refid="Base_Column_List"/>-->
+<!--        FROM user-->
+<!--        <where>-->
+<!--            <if test="username != null and username != ''">-->
+<!--                AND username LIKE CONCAT('%', #{username}, '%')-->
+<!--            </if>-->
+<!--            <if test="name != null and name != ''">-->
+<!--                AND name LIKE CONCAT('%', #{name}, '%')-->
+<!--            </if>-->
+<!--            <if test="role != null">-->
+<!--                AND role = #{role}-->
+<!--            </if>-->
+<!--            <if test="status != null">-->
+<!--                AND status = #{status}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        ORDER BY create_time DESC-->
+<!--    </select>-->
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user (
+            username, password, name, gender, phone, email,
+            role, avatar, student_id, college, class_name, status,
+            applied_role, apply_status, apply_time
+        ) VALUES (
+                     #{username}, #{password}, #{name}, #{gender}, #{phone}, #{email},
+                     #{role}, #{avatar}, #{studentId}, #{college}, #{className}, #{status},
+                     #{appliedRole}, #{applyStatus}, #{applyTime}
+                 )
+    </insert>
+
+    <update id="update">
+        UPDATE user
+        <set>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="role != null">role = #{role},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="college != null">college = #{college},</if>
+            <if test="className != null">class_name = #{className},</if>
+            <if test="status != null">status = #{status},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+    <!-- 管理员更新用户信息 -->
+    <update id="updateByAdmin">
+        UPDATE user
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="college != null">college = #{college},</if>
+            <if test="className != null">class_name = #{className},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="email != null">email = #{email},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteById">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+
+    <!-- 查询待审批的用户列表 -->
+    <select id="selectPendingApprovals" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user
+        WHERE apply_status = 1
+        ORDER BY apply_time ASC
+    </select>
+    <!-- 审批历史 -->
+    <select id="selectApprovedHistory" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user
+        WHERE apply_status IN (2, 3)
+        ORDER BY approve_time DESC
+        LIMIT 20
+    </select>
+    <!-- 更新申请状态 -->
+    <update id="updateApplyStatus">
+        UPDATE user
+        SET apply_status = #{status},
+        approve_time = NOW(),
+        approve_remark = #{approveRemark}
+        <if test="status == 2">
+            , role = applied_role
+        </if>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据手机号查询 -->
+    <select id="selectByPhone" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM user WHERE phone = #{phone}
+    </select>
+
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.system.mapper.SportRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.system.entity.SportRecord">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="facility_id" property="facilityId"/>
+        <result column="sport_type" property="sportType"/>
+        <result column="duration" property="duration"/>
+        <result column="calories" property="calories"/>
+        <result column="heart_rate_avg" property="heartRateAvg"/>
+        <result column="sport_date" property="sportDate"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, facility_id, sport_type, duration, calories, heart_rate_avg, sport_date, remark, create_time, update_time
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sport_record (user_id, facility_id, sport_type, duration, calories, heart_rate_avg, sport_date, remark)
+        VALUES (#{userId}, #{facilityId}, #{sportType}, #{duration}, #{calories}, #{heartRateAvg}, #{sportDate}, #{remark})
+    </insert>
+
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT r.*, f.name as facility_name
+        FROM sport_record r
+                 LEFT JOIN sports_facility f ON r.facility_id = f.id
+        WHERE r.user_id = #{userId}
+        ORDER BY r.sport_date DESC, r.create_time DESC
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM sport_record WHERE id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM sport_record WHERE id = #{id}
+    </delete>
+
+</mapper>

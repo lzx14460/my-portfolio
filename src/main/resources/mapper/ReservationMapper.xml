@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.system.mapper.ReservationMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.system.entity.Reservation">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="facility_id" property="facilityId"/>
+        <result column="reservation_date" property="reservationDate"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="duration" property="duration"/>
+        <result column="total_price" property="totalPrice"/>
+        <result column="status" property="status"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="WithUserMap" type="com.example.system.entity.Reservation" extends="BaseResultMap">
+        <association property="user" javaType="com.example.system.entity.User">
+            <id column="user_id" property="id"/>
+            <result column="user_name" property="name"/>
+            <result column="user_username" property="username"/>
+            <result column="user_phone" property="phone"/>
+        </association>
+        <association property="facility" javaType="com.example.system.entity.SportsFacility">
+            <id column="facility_id" property="id"/>
+            <result column="facility_name" property="name"/>
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, facility_id, reservation_date, start_time, end_time,
+        duration, total_price, status, order_no, remark, create_time, update_time
+    </sql>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM reservation WHERE id = #{id}
+    </select>
+
+    <!-- 查询用户所有预约 -->
+    <select id="selectByUserId" resultMap="WithUserMap">
+        SELECT r.*, u.name as user_name, u.username as user_username,
+               f.name as facility_name
+        FROM reservation r
+                 LEFT JOIN user u ON r.user_id = u.id
+                 LEFT JOIN sports_facility f ON r.facility_id = f.id
+        WHERE r.user_id = #{userId}
+        ORDER BY r.create_time DESC
+    </select>
+
+    <!-- 分页查询用户预约 -->
+    <select id="selectByUserIdWithPage" resultMap="WithUserMap">
+        SELECT r.*, u.name as user_name, u.username as user_username,
+               f.name as facility_name
+        FROM reservation r
+                 LEFT JOIN user u ON r.user_id = u.id
+                 LEFT JOIN sports_facility f ON r.facility_id = f.id
+        WHERE r.user_id = #{userId}
+        ORDER BY r.create_time DESC
+            LIMIT #{start}, #{size}
+    </select>
+
+    <!-- 查询用户预约总数 -->
+    <select id="selectCountByUserId" resultType="int">
+        SELECT COUNT(*) FROM reservation WHERE user_id = #{userId}
+    </select>
+
+    <!-- 检查时间冲突 -->
+    <select id="checkTimeConflict" resultType="int">
+        SELECT COUNT(*)
+        FROM reservation
+        WHERE facility_id = #{facilityId}
+        AND reservation_date = #{reservationDate}
+        AND status IN (0, 1)
+        AND NOT (end_time &lt;= #{startTime} OR start_time &gt;= #{endTime})
+        <if test="excludeId != null">
+            AND id != #{excludeId}
+        </if>
+    </select>
+    <select id="selectByOrderNo" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM reservation WHERE order_no = #{orderNo}
+    </select>
+
+    <!-- 插入预约 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO reservation (user_id, facility_id, reservation_date, start_time, end_time,
+                                 duration, total_price, status, order_no, remark)
+        VALUES (#{userId}, #{facilityId}, #{reservationDate}, #{startTime}, #{endTime},
+                #{duration}, #{totalPrice}, #{status}, #{orderNo}, #{remark})
+    </insert>
+
+    <!-- 更新预约状态 -->
+    <update id="updateStatus">
+        UPDATE reservation
+        SET status = #{status}, update_time = NOW()
+        WHERE id = #{id}
+    </update>
+    <!-- 查询今日预约总数 -->
+    <select id="selectTodayCount" resultType="int">
+        SELECT COUNT(*)
+        FROM reservation
+        WHERE reservation_date = CURDATE()
+    </select>
+    <!-- 查询指定设施在指定日期的预约 -->
+    <select id="selectByFacilityAndDate" resultMap="WithUserMap">
+        SELECT r.*, u.name as user_name, u.username as user_username,
+               f.name as facility_name
+        FROM reservation r
+                 LEFT JOIN user u ON r.user_id = u.id
+                 LEFT JOIN sports_facility f ON r.facility_id = f.id
+        WHERE r.facility_id = #{facilityId}
+          AND r.reservation_date = #{date}
+          AND r.status IN (0, 1, 2)
+        ORDER BY r.start_time ASC
+    </select>
+    <!-- 查询所有预约（关联用户和设施） -->
+    <select id="selectAllWithUserAndFacility" resultMap="WithUserMap">
+        SELECT r.*,
+               u.name as user_name,
+               u.username as user_username,
+               u.phone as user_phone,
+               f.name as facility_name,
+               f.type as facility_type
+        FROM reservation r
+                 LEFT JOIN user u ON r.user_id = u.id
+                 LEFT JOIN sports_facility f ON r.facility_id = f.id
+        ORDER BY r.create_time DESC
+    </select>
+    <!-- 查询用户已使用的预约记录（运动记录） -->
+    <select id="selectUsedByUserId" resultMap="WithUserMap">
+        SELECT r.*, u.name as user_name, u.username as user_username,
+               f.name as facility_name
+        FROM reservation r
+                 LEFT JOIN user u ON r.user_id = u.id
+                 LEFT JOIN sports_facility f ON r.facility_id = f.id
+        WHERE r.user_id = #{userId} AND r.status = 2
+        ORDER BY r.reservation_date DESC, r.start_time DESC
+    </select>
+    <!-- 根据ID删除预约 -->
+    <delete id="deleteById">
+        DELETE FROM reservation WHERE id = #{id}
+    </delete>
+    <!-- 查询每日预约趋势 -->
+    <select id="selectDailyTrend" resultType="java.util.HashMap">
+        SELECT
+            reservation_date as date,
+        COUNT(*) as count
+        FROM reservation
+        WHERE reservation_date BETWEEN #{startDate} AND #{endDate}
+          AND status IN (0, 1, 2)
+        GROUP BY reservation_date
+        ORDER BY reservation_date ASC
+    </select>
+
+    <!-- 查询各时段利用率 -->
+    <select id="selectHourUtilization" resultType="java.util.HashMap">
+        SELECT
+            hour as hour,
+            total_facilities,
+            COALESCE(reserved_count, 0) as reserved_count,
+            ROUND(COALESCE(reserved_count, 0) * 100.0 / total_facilities, 1) as utilization_rate
+        FROM (
+            SELECT
+            h.hour,
+            COUNT(DISTINCT f.id) as total_facilities,
+            (
+            SELECT COUNT(DISTINCT r.facility_id)
+            FROM reservation r
+            WHERE r.reservation_date BETWEEN #{startDate} AND #{endDate}
+            AND r.status IN (0, 1, 2)
+            AND HOUR(r.start_time) = h.hour
+            ) as reserved_count
+            FROM (
+            SELECT 8 as hour UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12 UNION
+            SELECT 13 UNION SELECT 14 UNION SELECT 15 UNION SELECT 16 UNION SELECT 17 UNION
+            SELECT 18 UNION SELECT 19 UNION SELECT 20 UNION SELECT 21
+            ) h
+            CROSS JOIN sports_facility f
+            WHERE f.status = 1
+            GROUP BY h.hour
+            ) t
+        ORDER BY hour ASC
+    </select>
+
+    <!-- 查询场馆预约排行 -->
+    <select id="selectFacilityRanking" resultType="java.util.HashMap">
+        SELECT
+            r.facility_id as facilityId,
+            COUNT(*) as reservationCount
+        FROM reservation r
+        WHERE r.reservation_date BETWEEN #{startDate} AND #{endDate}
+          AND r.status IN (0, 1, 2)
+        GROUP BY r.facility_id
+        ORDER BY reservationCount DESC
+    </select>
+
+    <!-- 查询指定设施在日期范围内的预约 -->
+    <select id="selectByFacilityAndDateRange" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM reservation
+        WHERE facility_id = #{facilityId}
+        AND reservation_date BETWEEN #{startDate} AND #{endDate}
+        AND status IN (0, 1, 2)
+        ORDER BY reservation_date ASC, start_time ASC
+    </select>
+
+</mapper>

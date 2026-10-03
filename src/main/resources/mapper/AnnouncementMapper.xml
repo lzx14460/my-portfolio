@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.system.mapper.AnnouncementMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.system.entity.Announcement">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="type" property="type"/>
+        <result column="priority" property="priority"/>
+        <result column="publisher_id" property="publisherId"/>
+        <result column="status" property="status"/>
+        <result column="publish_time" property="publishTime"/>
+        <result column="expire_time" property="expireTime"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <resultMap id="WithPublisherMap" type="com.example.system.entity.Announcement" extends="BaseResultMap">
+        <association property="publisher" javaType="com.example.system.entity.User">
+            <id column="publisher_id" property="id"/>
+            <result column="publisher_name" property="name"/>
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, title, content, type, priority, publisher_id, 
+        status, publish_time, expire_time, create_time
+    </sql>
+
+    <select id="selectById" resultMap="WithPublisherMap">
+        SELECT a.*, u.name as publisher_name
+        FROM announcement a
+                 LEFT JOIN user u ON a.publisher_id = u.id
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="WithPublisherMap">
+        SELECT a.*, u.name as publisher_name
+        FROM announcement a
+                 LEFT JOIN user u ON a.publisher_id = u.id
+        ORDER BY a.priority DESC, a.publish_time DESC
+    </select>
+
+    <select id="selectByPage" resultMap="WithPublisherMap">
+        SELECT a.*, u.name as publisher_name
+        FROM announcement a
+                 LEFT JOIN user u ON a.publisher_id = u.id
+        ORDER BY a.priority DESC, a.publish_time DESC
+            LIMIT #{start}, #{size}
+    </select>
+
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(*) FROM announcement
+    </select>
+
+    <select id="selectByType" resultMap="WithPublisherMap">
+        SELECT a.*, u.name as publisher_name
+        FROM announcement a
+                 LEFT JOIN user u ON a.publisher_id = u.id
+        WHERE a.type = #{type}
+        ORDER BY a.priority DESC, a.publish_time DESC
+    </select>
+
+    <select id="selectCurrentAnnouncements" resultMap="WithPublisherMap">
+        SELECT a.*, u.name as publisher_name
+        FROM announcement a
+                 LEFT JOIN user u ON a.publisher_id = u.id
+        WHERE a.status = 1
+          AND (a.expire_time IS NULL OR a.expire_time > NOW())
+        ORDER BY a.priority DESC, a.publish_time DESC
+    </select>
+
+<!--    <select id="selectByPublisherId" resultMap="WithPublisherMap">-->
+<!--        SELECT a.*, u.name as publisher_name-->
+<!--        FROM announcement a-->
+<!--                 LEFT JOIN user u ON a.publisher_id = u.id-->
+<!--        WHERE a.publisher_id = #{publisherId}-->
+<!--        ORDER BY a.publish_time DESC-->
+<!--    </select>-->
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO announcement (
+            title, content, type, priority, publisher_id, status, publish_time, expire_time
+        ) VALUES (
+                     #{title}, #{content}, #{type}, #{priority}, #{publisherId},
+                     #{status}, #{publishTime}, #{expireTime}
+                 )
+    </insert>
+
+    <update id="update">
+        UPDATE announcement
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="priority != null">priority = #{priority},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="expireTime != null">expire_time = #{expireTime},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE announcement
+        SET status = #{status}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM announcement WHERE id = #{id}
+    </delete>
+
+</mapper>
